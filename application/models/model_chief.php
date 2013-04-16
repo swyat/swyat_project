@@ -37,12 +37,11 @@
     
     public function deleteMessage($id)
     {
-        echo "id".$id;
      if (is_numeric($id))
      {
          if(!mysql_query("DELETE FROM $this->mysql_table WHERE id =$id"))
          {
-          throw new Exception ("Can't delete this message");
+          new controllerError("Can't delete this message");
          }
      } 
          $url = "http://localhost/project";
@@ -78,7 +77,7 @@
        if (!mysql_query("INSERT INTO $this->mysql_table (name, email, topic, s_text, l_text, c_time)
           VALUES('$name','$email','$topic','$s_text','$l_text',NOW())"))
        {
-           throw new Exception("Can't create this message");
+           new controllerError("Can't create this message");
        }  
             $url = "http://localhost/project";
            header("Location: $url");      
@@ -136,9 +135,13 @@
                 header("Location: $url"); 
             }
        }
+       else{
+             new controllerError("Can't update this message");
+       }
      }
   
 /**
+ *  @param $id - Ідентифікатор потрібного повідомлення 
  *  Функція заміни скороченого повідомлення на ціле
  */ 
      
@@ -151,4 +154,5 @@
            echo  $long_text;
          }
      }
+     
 }

@@ -1,26 +1,26 @@
 <?php
 
-/*
- * Файл у якому розміщується клас моделі.
- */
+    /*
+     * Файл у якому розміщується клас моделі.
+     */
 
-/**
- * Модель @link Model_reg_avt - Виконує функції перевірки записів, що поступають із форм,
- * та запис їх в базу даних, та читання із бази даних
- *
- * @author swyat <swyatyxa@i.ua>
- */
+    /**
+     * Модель @link Model_reg_avt - Виконує функції перевірки записів, що поступають із форм,
+     * та запис їх в базу даних, та читання із бази даних
+     *
+     * @author swyat <swyatyxa@i.ua>
+     */
 class Model_reg_avt extends Model {
     
-/**
- * Функція @link Validator($login, $password, $mysql_table, $password2 = NULL)
- *  - Перевіряє на відповідність аргументів regex-шаблону, 
- * @param string $login - Є логіном нового користувача
- * @param string $password  - Є паролем нового користувача 
- * @param string $mysql_table - Таблиця, для знаходження одинакових записів, якщо такі є 
- * @param string $password2 - Дублювання пароля, для точності його вводу
- * @return $error_mes  - Масив із повідомленнями про неправильно введені дані.
- */    
+    /**
+     * Функція @link Validator($login, $password, $mysql_table, $password2 = NULL)
+     *  - Перевіряє на відповідність аргументів regex-шаблону, 
+     * @param string $login - Є логіном нового користувача
+     * @param string $password  - Є паролем нового користувача 
+     * @param string $mysql_table - Таблиця, для знаходження одинакових записів, якщо такі є 
+     * @param string $password2 - Дублювання пароля, для точності його вводу
+     * @return $error_mes  - Масив із повідомленнями про неправильно введені дані.
+     */    
     public function Validator($login, $password, $mysql_table, $password2 = NULL){
      
         $error_mes = array();
@@ -69,7 +69,7 @@ class Model_reg_avt extends Model {
                 $result = mysql_query("SELECT * FROM $mysql_table WHERE login='$login' AND password='$password'") or die(" error seach ryadka ");
                 $row = mysql_num_rows($result); 
                 if ($row == 1){
-                    $error_mes['login'] = "1";
+                    $error_mes['login'] = TRUE;
                     $error_mes['password'] = ""; 
                     return $error_mes;
                 }
@@ -81,74 +81,69 @@ class Model_reg_avt extends Model {
                
             }  
      else {
-        $error_mes['login'] = 1;
+        $error_mes['login'] = TRUE;
         $error_mes['password'] = "";
         return $error_mes;
      }         
     }
-/**
- * Функція @link newUser($login, $password, $mysql_table)
- *  - Записує в базу даних нового користувача, 
- * @param string $login - Є логіном нового користувача
- * @param string $password  - Є паролем нового користувача 
- * @param string $mysql_table - Таблиця, для знаходження одинакових записів, якщо такі є
- * @expectedExceptionMessage 'Error inserting new user!!!' - при виникненні помилки  
- * пов язаної із записом в базу
- */  
+    /**
+     * Функція @link newUser($login, $password, $mysql_table)
+     *  - Записує в базу даних нового користувача, 
+     * @param string $login - Є логіном нового користувача
+     * @param string $password  - Є паролем нового користувача 
+     * @param string $mysql_table - Таблиця, для знаходження одинакових записів, якщо такі є
+     * @expectedExceptionMessage 'Error inserting new user!!!' - при виникненні помилки  
+     * пов язаної із записом в базу
+     */  
     public function newUser($login, $password, $mysql_table){
         
         $hash = $this -> createHash();
         if(!mysql_query("INSERT INTO $mysql_table (login, password, code) VALUES ('$login', '$password', '$hash')")){
-            throw new Exception('Error inserting new user!!!');
+              new controllerError('Error inserting new user!!!');
         }
     }
-/**
- * Функція @link createHash() - Генерує хеш-код користувача
- * 
- * @return $hash - повертає генерований хеш код
- */    
+    /**
+     * Функція @link createHash() - Генерує хеш-код користувача
+     * 
+     * @return $hash - повертає генерований хеш код
+     */    
     public function createHash(){
         $hash = substr(md5(uniqid(rand(),true)), 1, 10);
         return $hash;
     }
-/**
- * Функція @link twinSeach($name, $data, $mysql_table)
- *  - Функція пошуку одинакових даних в таблиці @link $mytable
- * @param string $name - Є логіном користувача
- * @param string $data  - Є паролем користувача 
- * @param string $mysql_table - Таблиця, з даними про користувача
- * @return $error_mes  - Повертає 1 при успішному виконанні функції
- */         
+    /**
+     * Функція @link twinSeach($name, $data, $mysql_table)
+     *  - Функція пошуку одинакових даних в таблиці @link $mytable
+     * @param string $name - Є логіном користувача
+     * @param string $data  - Є паролем користувача 
+     * @param string $mysql_table - Таблиця, з даними про користувача
+     * @return TRUE - Повертає при успішному виконанні функції
+     */         
     public function twinSeach($name, $data, $mysql_table){
        $result=mysql_query("SELECT * FROM $mysql_table WHERE $name like '$data' ") or die(" error seach row ");
        $rows=mysql_num_rows($result);
        if ($rows>1){
-           return 1;
+           return TRUE;
+       }
+       else{
+             new controllerError('Error find 2 hashes');
        }
     }
-/**
- * Функція @link generateCookie($login, $password, $mysql_table, $hash)
- *  - Перевіряє та оновлює унікальний хеш-код користувача та генерує cookie із цим кодом
- * @param string $login - Є логіном користувача
- * @param string $password  - Є паролем користувача 
- * @param string $hash - старий хеш-код користувача
- * @param string $mysql_table - Таблиця, для оновлення хеш-коду користувача
- * @return $error_mes  - Повертає 1 при успішному виконанні функції
- */  
-    public function generateCookie($login, $password, $mysql_table, $hash = NULL){
+    /**
+     * Функція @link generateCookie($login, $password, $mysql_table, $hash)
+     *  - Перевіряє та оновлює унікальний хеш-код користувача та генерує cookie із цим кодом
+     * @param string $login - Є логіном користувача
+     * @param string $password  - Є паролем користувача 
+     * @param string $mysql_table - Таблиця, для оновлення хеш-коду користувача
+     * @return TRUE - Повертає при успішному виконанні функції
+     */  
+    public function generateCookie($login, $password, $mysql_table){
        
-                
-                $table_hash = $this ->seeHash($login, $password, $mysql_table);
-                if ($hash == $table_hash)
-                {
-                       $newHash = $this -> createHash();
-                       echo $newHash;
-                       if (!$this -> updateHash($login, $password, $newHash, $mysql_table)){
-                           throw new Exception('Error updateHash');
-                       }
-                       setcookie("hash", $newHash, time()+60*60*24*30);
-                       return 1;   
-                }
+            if (!isset($_COOKIE['hash'])){
+                $tableHash = $this ->seeHash($login, $password, $mysql_table);
+                setcookie("hash", $tableHash, time()+60*60*24*30, '/');
+                return TRUE;
+            }         
     } 
     
 /**
@@ -156,14 +151,18 @@ class Model_reg_avt extends Model {
  *  - Оновлює унікальний хеш-код користувача
  * @param string $login - Є логіном користувача
  * @param string $password  - Є паролем користувача 
+ * @param string $hash  - Є новим хешкодом користувача 
  * @param string $mysql_table - Таблиця, для оновлення хеш-коду користувача
- * @return $error_mes  - Повертає 1 при успішному виконанні функції
+ * @return TRUE  - Повертає true при успішному виконанні функції
  */      
     public function updateHash($login, $password, $hash, $mysql_table){
 
         if (mysql_query("UPDATE $mysql_table SET code='$hash' WHERE login='$login' AND password='$password'")){
-            return 1;
+            return TRUE;
         }
+        else{
+             new controllerError('Error updating colum "code" in korustyvach_info');
+       }
     }
 /**
  * Функція @link seeHash($login, $password, $mysql_table)
@@ -171,17 +170,38 @@ class Model_reg_avt extends Model {
  * @param string $login - Є логіном користувача
  * @param string $password  - Є паролем користувача 
  * @param string $mysql_table - Таблиця, для оновлення хеш-коду користувача
- * @return $error_mes  - Повертає поле @lick $seach_row['code'] при успішному виконанні функції
+ * @return $seach_row['code']  - Повертає масив при успішному виконанні функції
  */ 
     public function seeHash($login, $password, $mysql_table){
         $result = mysql_query("SELECT * FROM $mysql_table WHERE login='$login' AND password='$password' ") or die(" error seach row ");
         $seach_row = mysql_fetch_array($result); 
         return $seach_row['code'];
         }
+ /**
+ * Функція @link getPermission($login, $password, $mysql_table)
+ *  - Повертає назву прав доступу користувача
+ * @param string $login - Є логіном користувача
+ * @param string $password  - Є паролем користувача 
+ * @param string $mysql_table - Таблиця, для вибірки прав доступу користувача
+ * @return $seach_row['permissions']  - Повертає масив  при успішному виконанні функції
+ */        
     public function getPermission($login, $password, $mysql_table){
     $result = mysql_query("SELECT permissions FROM $mysql_table WHERE login='$login' AND password='$password' ");    
     $seach_row = mysql_fetch_assoc($result);
     return $seach_row['permissions'];
+    }
+    
+    /**
+    * Функція @link getLogin($hash)
+    * @param string $hash - Є унікальним хешкодом користувача
+    * @return $seach_row['login']  Повертає масив  при успішному виконанні функції
+    */ 
+    
+    public function getLogin($hash){
+   
+       $result = mysql_query("SELECT login FROM korustyvach_info WHERE  code='$hash' ");    
+       $seach_row = mysql_fetch_assoc($result);
+       return $seach_row['login'];
     }
 }
 

@@ -6,7 +6,6 @@
         <script type="text/javascript" src ="/project/js/jquery-1.9.1.js"></script>
         <script src="/project/js/scripts.js"></script>
     
-        
     <title> Guests-book </title>
     </head>
     <body>  

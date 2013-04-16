@@ -1,6 +1,5 @@
-<?php    session_start();
-       //echo "cookie".$_COOKIE['hash'];
-         if(isset($_SESSION['login'])){ //isset($_SESSION['login'])||
+<?php   
+         if(isset($_SESSION['login'])){ 
             include 'application/views/Exit_view.php';   
          } 
          else include 'application/views/RegAvt_view.php';?>     

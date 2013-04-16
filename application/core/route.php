@@ -24,6 +24,7 @@ class Route {
  */
         $controller_name = 'chief';
         $action_name = 'index' ;
+        $errorController = 'controllerError.php';
 /**
  *  Оголошення масиву елементів, що для передачі 
  * аргументів методів у відповідні методи моделі.
@@ -52,28 +53,34 @@ class Route {
                 $action_name = 'action_'.$action_name;
                 
           $model_file = strtolower($model_name).'.php';
-          $model_path = "application/models/".$model_file;
           
+          $model_path = "application/models/".$model_file;
           if (!file_exists($model_path)){
-              throw new Exception ("Connect error. Check name of model file");
+              new controllerError("Connect error. Check name of model file");
             }
             include "application/models/".$model_file;
-          
+            
             
           $controller_file = strtolower($controller_name).'.php'; 
           $controller_path = "application/controllers/".$controller_file;
              
             if (!file_exists($controller_path)){
-                throw new Exception ("Connect error. Check name of model file"); 
+                new controllerError("Connect error. Check name of model file"); 
             }
             include "application/controllers/".$controller_file;
-     
+            include "application/controllers/".$errorController;
             $controller = new $controller_name;        
             $action = $action_name;
-     
-      
+         
+        if ($controller_name == 'Controller_chief'){
+            $model_file2 = "model_reg_avt.php";
+            include "application/models/".$model_file2;
+            $chifOb = new $controller_name;
+            $chifOb -> showCookie();
+        }
+            
         if (!method_exists($controller, $action)){
-             throw new Exception ("Connect error. Check names of controller-methods");
+             new controllerError("Connect error. Check names of controller-methods");
         }
              call_user_func_array(array($controller, $action), $arr);
     }

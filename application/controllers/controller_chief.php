@@ -94,6 +94,17 @@ public function __construct(){
          $id = $_POST['ident'];
         $this -> model -> changeMessage($id);
      }
+     
+     public function showCookie(){
+         
+         if (isset($_COOKIE['hash'])){
+         $hash = $_COOKIE['hash'];   
+         $this -> model = new Model_reg_avt();
+         $login = $this -> model -> getLogin($hash);
+         session_start();
+         $_SESSION['login'] = $login;
+         }
+     }
 }
 
 

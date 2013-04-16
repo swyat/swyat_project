@@ -19,7 +19,7 @@ class Model {
    public function __construct()
    {  
      if (!mysql_connect($this -> mysql_host, $this -> mysql_username, $this -> mysql_password)) {
-       throw new Exception('Connect error!');    
+       new controllerError('Connect error!');    
      }
        mysql_select_db($this -> mysql_database);  
    }
