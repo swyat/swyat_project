@@ -2,7 +2,7 @@
 /**
  * Підключення вюшки {@link form_view.php} з формою створення повідомлення
  */
-    include 'application/views/Form_view.php';
+    include 'application/views/FormView.php';
 
     $size = count($data);
     $counter = 1;

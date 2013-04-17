@@ -8,7 +8,7 @@
  * @version 1.0
  */
 
-class Controller_chief extends Controller 
+class ControllerChief extends Controller 
 {
 
 /**
@@ -28,9 +28,9 @@ public function __construct(){
  */
     
     public function action_index($id = null) {    
-         $this -> model = new Model_Chief();
-         $data = $this -> model -> print_messages($id);
-         $this -> view -> generate('Chief_view', 'Template_view', $data);
+         $this -> model = new ModelChief();
+         $data = $this -> model -> printMessages($id);
+         $this -> view -> generate('Chief_view', $data);
      }
      
 /**
@@ -40,7 +40,7 @@ public function __construct(){
  */
      
     public function action_delete_message($id){
-         $this -> model = new Model_Chief();
+         $this -> model = new ModelChief();
          $this -> model -> deleteMessage($id); 
      }
      
@@ -51,9 +51,9 @@ public function __construct(){
 */ 
      
     public function action_edit_message($id){
-        $this -> model = new Model_Chief();
+        $this -> model = new ModelChief();
         $data = $this -> model -> editMessage($id);
-        $this -> view -> generate('Edit_view', 'Template_view', $data);
+        $this -> view -> generate('Edit_view', $data);
      }
     
 /**
@@ -62,12 +62,12 @@ public function __construct(){
      
     public function action_create_message(){
        
-       $this -> model = new Model_Chief();
+       $this -> model = new ModelChief();
           $name = $_POST['name'];
           $email = $_POST['email'];
           $topic = $_POST['topic'];
-          $l_text = $_POST['l_text'];
-        $this -> model -> createMessage($name, $email, $topic, $l_text);
+          $lText = $_POST['l_text'];
+        $this -> model -> createMessage($name, $email, $topic, $lText);
      }
 /**
  * Функція оновлення інформації редагованого повідомлення.
@@ -79,10 +79,10 @@ public function __construct(){
           $name = $_POST['Uname'];
           $email = $_POST['Uemail'];
           $topic = $_POST['Utopic'];
-          $l_text = $_POST['Ul_text'];
+          $lText = $_POST['Ul_text'];
          
-       $this -> model = new Model_Chief();
-        $this -> model -> updateMessage($id, $name, $email, $topic, $l_text);  
+       $this -> model = new ModelChief();
+        $this -> model -> updateMessage($id, $name, $email, $topic, $lText);  
      }
      
 /**
@@ -90,7 +90,7 @@ public function __construct(){
  */
      
     public function action_change_message(){
-        $this -> model = new Model_Chief();
+        $this -> model = new ModelChief();
          $id = $_POST['ident'];
         $this -> model -> changeMessage($id);
      }
@@ -99,7 +99,7 @@ public function __construct(){
          
          if (isset($_COOKIE['hash'])){
          $hash = $_COOKIE['hash'];   
-         $this -> model = new Model_reg_avt();
+         $this -> model = new ModelRegAvt();
          $login = $this -> model -> getLogin($hash);
          session_start();
          $_SESSION['login'] = $login;

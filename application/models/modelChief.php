@@ -10,9 +10,9 @@
  *
  * @author swyat <swyatyxa@i.ua>
  */
- class Model_Chief extends Model {
+ class ModelChief extends Model {
     
-     private $mysql_table = "messages_info";
+     private $mysqlTable = "messages_info";
 
 /**
  * Функція відображення всіх повідомлень
@@ -20,7 +20,7 @@
  * @param type $id Можливість відображення одного повідомлення 
  */
     
-    public function print_messages($id)
+    public function printMessages($id)
     {
         $messages = $this ->getData($id);
             if (is_array($messages))
@@ -39,7 +39,7 @@
     {
      if (is_numeric($id))
      {
-         if(!mysql_query("DELETE FROM $this->mysql_table WHERE id =$id"))
+         if(!mysql_query("DELETE FROM $this->mysqlTable WHERE id =$id"))
          {
           new controllerError("Can't delete this message");
          }
@@ -48,13 +48,13 @@
          header("Location: $url");               
     }
     
-/**
-* Функція вибірки даних для редагування потрібного повідомлення
-* 
-* @param type $id Ідентифікаційний номер повідомлення, що маємо редагувати
- * @return $message Повертає асоціативний масив із відмовідними полями,
- *  що можуть редагуватися користувачем
-*/
+    /**
+    * Функція вибірки даних для редагування потрібного повідомлення
+    * 
+    * @param type $id Ідентифікаційний номер повідомлення, що маємо редагувати
+    * @return $message Повертає асоціативний масив із відмовідними полями,
+    *  що можуть редагуватися користувачем
+    */
     
     public function editMessage($id)
     {  
@@ -69,13 +69,13 @@
  *   Функція внесення полів нового повідомлення в базу даних
  */ 
     
-    public function createMessage($name, $email, $topic, $l_text)
+    public function createMessage($name, $email, $topic, $lText)
     {
       
-       $s_text = substr($l_text, 0, 60).'...';      
+       $sText = substr($lText, 0, 60).'...';      
         
-       if (!mysql_query("INSERT INTO $this->mysql_table (name, email, topic, s_text, l_text, c_time)
-          VALUES('$name','$email','$topic','$s_text','$l_text',NOW())"))
+       if (!mysql_query("INSERT INTO $this->mysqlTable (name, email, topic, s_text, l_text, c_time)
+          VALUES('$name','$email','$topic','$sText','$lText',NOW())"))
        {
            new controllerError("Can't create this message");
        }  
@@ -93,15 +93,15 @@
  * або одним повідомленням, взалежності від наявноста аргумента {@link $id}
  */     
         public function getData($id){
-            $data_array = array();
-            $select = mysql_query ("SELECT * FROM $this->mysql_table");
+            $dataArray = array();
+            $select = mysql_query ("SELECT * FROM $this->mysqlTable");
 	    $count =mysql_num_rows($select);
             $fields = 7;
            
          if (is_numeric($id)){
             while ($f = mysql_fetch_array($select)){
                 if ($id == $f['id']){
-                    $data_array = array ('id'=>$f['id'], 'name'=>$f['name'], 'email'=>$f['email'], 'topic'=>$f['topic'],'l_text'=>$f['l_text'] );
+                    $dataArray = array ('id'=>$f['id'], 'name'=>$f['name'], 'email'=>$f['email'], 'topic'=>$f['topic'],'l_text'=>$f['l_text'] );
 		    break;
                 }
             }
@@ -110,12 +110,12 @@
 		for ($i=0; $i<$count; $i++){ 
                     $f = mysql_fetch_array($select);
 	            for ($j=0; $j<$fields; $j++){
-			$data_array[$i][$j] = $f[$j];
+			$dataArray[$i][$j] = $f[$j];
 		    }
 		}
             }
-            if (is_array($data_array)){
-                return $data_array;
+            if (is_array($dataArray)){
+                return $dataArray;
             }
       }  
          
@@ -127,10 +127,10 @@
          
      public function updateMessage($id, $name, $email, $topic, $l_text){
    
-         $short_text = substr($l_text, 0, 60).'...';
+         $shortText = substr($l_text, 0, 60).'...';
          
        if(is_numeric($id)){ 
-            if (mysql_query("UPDATE $this->mysql_table SET name='$name', email='$email', topic='$topic', s_text='$short_text', l_text ='$l_text', e_time='NOW()' WHERE id='$id'")){
+            if (mysql_query("UPDATE $this->mysqlTable SET name='$name', email='$email', topic='$topic', s_text='$shortText', l_text ='$lText', e_time='NOW()' WHERE id='$id'")){
                 $url = "http://localhost/project";
                 header("Location: $url"); 
             }
@@ -147,11 +147,10 @@
      
      public function changeMessage($id){
          
-          
           if (isset($id)){
            $message = $this ->getData($id);  
-           $long_text = $message['l_text'];
-           echo  $long_text;
+           $longText = $message['l_text'];
+           echo  $longText;
          }
      }
      

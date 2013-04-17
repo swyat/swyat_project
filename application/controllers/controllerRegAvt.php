@@ -9,9 +9,9 @@
  *
  * @author swyat <swyatyxa@i.ua>
  */
-class Controller_reg_avt extends Controller  {
+class ControllerRegAvt extends Controller  {
     
-    private $mysql_table = "korustyvach_info";
+    private $mysqlTable = "korustyvach_info";
   
     
     public function __construct(){
@@ -22,13 +22,13 @@ class Controller_reg_avt extends Controller  {
  *  Функція @link action_getRegistrstionForm() - перекидає користувача на форму реєстрації 
  */
     public function action_getRegistrstionForm(){
-        $this -> view -> generate('Regist_view', 'Template_view', $data = NULL);  
+        $this -> view -> generate('Regist_view', $data = NULL);  
     }
 /**
  * Функція @link action_getEnterForm() - перекидає користувача на форму авторизації    
  */
      public function action_getEnterForm(){
-        $this -> view -> generate('Enter_view', 'Template_view', $data = NULL);  
+        $this -> view -> generate('Enter_view', $data = NULL);  
     }
 
 /**
@@ -39,14 +39,14 @@ class Controller_reg_avt extends Controller  {
       $password = $_POST['password'];
       $password2 = $_POST['password2'];
     
-        $this -> model = new Model_reg_avt();
-        $error_mes = $this -> model -> Validator($login, $password, $this -> mysql_table, $password2);
+        $this -> model = new ModelRegAvt();
+        $error_mes = $this -> model -> Validator($login, $password, $this -> mysqlTable, $password2);
 
         if($error_mes['login']==1){
-             
-             $this -> model -> newUser($login, $password, $this -> mysql_table);
+            
+             $this -> model -> newUser($login, $password, $this -> mysqlTable);
         }             
-            $this -> view -> generate('Regist_view', 'Template_view', $data = $error_mes);
+            $this -> view -> generate('Regist_view', $data = $error_mes);
     }
  
 /**
@@ -57,29 +57,30 @@ class Controller_reg_avt extends Controller  {
       $login = $_POST['login'];
       $password = $_POST['password']; 
      
-      $this -> model = new Model_reg_avt();
-      $error_mes = $this -> model -> Validator($login, $password, $this -> mysql_table);
-      if ($error_mes['login'] === TRUE){
-             
-             if (!$this -> model -> generateCookie($login, $password, $this -> mysql_table)){
+      $this -> model = new ModelRegAvt();
+      $errorMes = $this -> model -> Validator($login, $password, $this -> mysqlTable);
+      if ($errorMes['login'] === TRUE){
+            
+          $this -> model -> generateCookie($login, $password, $this -> mysqlTable);
                  
-                 new controllerError('Plese check your cookie on!');
-             }
-          $permissions = $this -> model -> getPermission($login, $password, $this -> mysql_table);
-          $_SESSION["login"] = $login;
+          
+           
+
+          $permissions = $this -> model -> getPermission($login, $password, $this -> mysqlTable);
+         
+          $_SESSION["login"] = $login;         
           $_SESSION["permissions"] =  $permissions;
       }
-      $this -> view -> generate('Enter_view', 'Template_view', $data = $error_mes);
+      $this -> view -> generate('Enter_view', $data = $errorMes);
       
     }
 /**
  * Функція @link action_userExit() - розавторизовує користувача, що був авторизований 
  */   
     public function action_userExit(){
-         echo 'xxx';
          echo $_COOKIE['hash'];
-        setcookie("hash", "");
-        echo $_COOKIE['hash'];
+         setcookie("hash", "");
+         echo $_COOKIE['hash'];
          
          unset($_SESSION["login"]);
          unset($_SESSION["permissions"]);

@@ -22,8 +22,8 @@ class Route {
  *  Поля {@link $controller_name $action_name},
  *  що є контроллером та методом моделі позамовчуванню   
  */
-        $controller_name = 'chief';
-        $action_name = 'index' ;
+        $controllerName = 'chief';
+        $actionName = 'index' ;
         $errorController = 'controllerError.php';
 /**
  *  Оголошення масиву елементів, що для передачі 
@@ -33,11 +33,11 @@ class Route {
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);       
             if (!empty($routes[2])){
-               $controller_name = $routes[2];
+               $controllerName = $routes[2];
             }  
       
                 if (!empty($routes[3])){
-                   $action_name = $routes[3];
+                   $actionName = $routes[3];
                 }
                  
                     if (!empty($routes[4])){
@@ -48,37 +48,36 @@ class Route {
                         }
                     }
             
-                $model_name = 'Model_'.$controller_name;
-		$controller_name = 'Controller_'.$controller_name;	
-                $action_name = 'action_'.$action_name;
+                $modelName = 'Model'.$controllerName;
+		$controllerName = 'Controller'.$controllerName;	
+                $actionName = 'action_'.$actionName;
                 
-          $model_file = strtolower($model_name).'.php';
+          $modelFile = strtolower($modelName).'.php';
           
-          $model_path = "application/models/".$model_file;
-          if (!file_exists($model_path)){
+          $modelPath = "application/models/".$modelFile;
+          if (!file_exists($modelPath)){
               new controllerError("Connect error. Check name of model file");
             }
-            include "application/models/".$model_file;
+            include "application/models/".$modelFile;
             
             
-          $controller_file = strtolower($controller_name).'.php'; 
-          $controller_path = "application/controllers/".$controller_file;
+          $controllerFile = strtolower($controllerName).'.php'; 
+          $controllerPath = "application/controllers/".$controllerFile;
              
-            if (!file_exists($controller_path)){
+            if (!file_exists($controllerPath)){
                 new controllerError("Connect error. Check name of model file"); 
             }
-            include "application/controllers/".$controller_file;
+            include "application/controllers/".$controllerFile;
             include "application/controllers/".$errorController;
-            $controller = new $controller_name;        
-            $action = $action_name;
+            $controller = new $controllerName;        
+            $action = $actionName;
          
-        if ($controller_name == 'Controller_chief'){
-            $model_file2 = "model_reg_avt.php";
-            include "application/models/".$model_file2;
-            $chifOb = new $controller_name;
+        if ($controllerName == 'ControllerChief'){
+            $modelFile2 = "modelRegAvt.php";
+            include "application/models/".$modelFile2;
+            $chifOb = new $controllerName;
             $chifOb -> showCookie();
         }
-            
         if (!method_exists($controller, $action)){
              new controllerError("Connect error. Check names of controller-methods");
         }

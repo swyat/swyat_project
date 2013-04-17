@@ -6,7 +6,7 @@
        function editMessage(parameters)
        {
           var id = encodeURIComponent(parameters);
-          window.location.href = 'http://localhost/project/chief/edit_message/edit/'+id;
+          window.location.href = 'http://localhost/project/Chief/edit_message/edit/'+id;
        }
        
     /**
@@ -17,7 +17,7 @@
       function deleteMessage(parameters)
       {
          var id = encodeURIComponent(parameters);
-         window.location.href = 'http://localhost/project/chief/delete_message/del/'+id;
+         window.location.href = 'http://localhost/project/Chief/delete_message/del/'+id;
       }
     /**
      * Функція @link post(parameters) педедає ajax-ом ідентифікатор повного повідомлення, 
@@ -30,7 +30,7 @@
               $.ajax({
                   
                 type: "POST",
-                url: "http://localhost/project/chief/change_message/",                                //"/project/application/views/chief.php",
+                url: "http://localhost/project/Chief/change_message/",                                //"/project/application/views/chief.php",
                 data: 'ident='+short_text_id,
                 success: function(msg){
                        

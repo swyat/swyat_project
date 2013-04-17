@@ -10,7 +10,7 @@
      *
      * @author swyat <swyatyxa@i.ua>
      */
-class Model_reg_avt extends Model {
+class ModelRegAvt extends Model {
     
     /**
      * Функція @link Validator($login, $password, $mysql_table, $password2 = NULL)
@@ -122,12 +122,10 @@ class Model_reg_avt extends Model {
     public function twinSeach($name, $data, $mysql_table){
        $result=mysql_query("SELECT * FROM $mysql_table WHERE $name like '$data' ") or die(" error seach row ");
        $rows=mysql_num_rows($result);
-       if ($rows>1){
+       if ($rows>0){
            return TRUE;
        }
-       else{
-             new controllerError('Error find 2 hashes');
-       }
+       
     }
     /**
      * Функція @link generateCookie($login, $password, $mysql_table, $hash)

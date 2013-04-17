@@ -1,9 +1,9 @@
 <?php   
          if(isset($_SESSION['login'])){ 
-            include 'application/views/Exit_view.php';   
+            include 'application/views/ExitView.php';   
          } 
-         else include 'application/views/RegAvt_view.php';?>     
-            <form method ="POST" action ="/project/chief/create_message/" class ="Formstyle" style ="text-align: center">
+         else include 'application/views/RegAvtView.php';?>     
+            <form method ="POST" action ="/project/Chief/create_message/" class ="Formstyle" style ="text-align: center">
                 <p class = "Text">Send a new message</p>
                 <p class ="Formname" >Enter your name </p><input type ="text" class = "FormFields1" name ="name" autofocus ="autofocus"  required ="required"/>
                 <p class ="Formemail" >Enter your email </p><input type ="email" class = "FormFields2" name ="email" />

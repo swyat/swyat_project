@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Клас {@link View} є батьком всіх вюшок, що його наслідують
  *
@@ -10,8 +8,6 @@
 class View 
 {
     
-  // public $template_view =       // можна задати область позамовчуванню
-    
 /**
  * Функція формування виду сторінок.
  * 
@@ -19,18 +15,10 @@ class View
  * @param type $template_view Головна вюшка
  * @param type $data Можливість передачі даних у вюшку
  */        
-    public function generate($content_view, $template_view, $data = null)
+    public function generate($contentView, $data = null)
     {
-        /*
-        if (is_array($data))
-        {                            //перетворює елементи масива на змінні
-            extract($data);
-        }
-        */
-/**
- * Підключення файлу з головною вюшкою
- */
-       include 'application/views/'.$template_view.'.php';
+       $templateView = 'Template_view';
+       include 'application/views/'.$templateView.'.php';
     }
 }
 
