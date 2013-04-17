@@ -22,9 +22,10 @@ class Route {
  *  Поля {@link $controller_name $action_name},
  *  що є контроллером та методом моделі позамовчуванню   
  */
-        $controllerName = 'chief';
+        $controllerName = 'Chief';
         $actionName = 'index' ;
         $errorController = 'controllerError.php';
+        include "application/controllers/".$errorController;
 /**
  *  Оголошення масиву елементів, що для передачі 
  * аргументів методів у відповідні методи моделі.
@@ -49,7 +50,7 @@ class Route {
                     }
             
                 $modelName = 'Model'.$controllerName;
-		$controllerName = 'Controller'.$controllerName;	
+		$controllerName = 'controller'.$controllerName;	
                 $actionName = 'action_'.$actionName;
                 
           $modelFile = strtolower($modelName).'.php';
@@ -68,11 +69,11 @@ class Route {
                 new controllerError("Connect error. Check name of model file"); 
             }
             include "application/controllers/".$controllerFile;
-            include "application/controllers/".$errorController;
+            
             $controller = new $controllerName;        
             $action = $actionName;
-         
-        if ($controllerName == 'ControllerChief'){
+            
+        if ($controllerName == 'controllerChief'){
             $modelFile2 = "modelRegAvt.php";
             include "application/models/".$modelFile2;
             $chifOb = new $controllerName;

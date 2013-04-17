@@ -1,5 +1,6 @@
 <div style ="text-align: center">
     <p>Registration</p>
+      
 <form action ="/project/RegAvt/registration" method ="POST"> 
  <p> Enter your name:</p><input type ="text" name ="login"/>
  <p style ="color: red"><?php if ($data["login"]=="1")  echo "login vveden virno"; else echo $data["login"]; ?></p> 

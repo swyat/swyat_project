@@ -10,7 +10,6 @@
     <body>  
         
         <?php 
-
         include 'application/views/'.$contentView.'.php'; ?>
     </body>
 </html>

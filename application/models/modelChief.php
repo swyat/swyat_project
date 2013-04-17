@@ -125,9 +125,9 @@
  * @param type $id Ідентифікаційний номер повідомлення, що оновлюємо
  */
          
-     public function updateMessage($id, $name, $email, $topic, $l_text){
+     public function updateMessage($id, $name, $email, $topic, $lText){
    
-         $shortText = substr($l_text, 0, 60).'...';
+         $shortText = substr($lText, 0, 60).'...';
          
        if(is_numeric($id)){ 
             if (mysql_query("UPDATE $this->mysqlTable SET name='$name', email='$email', topic='$topic', s_text='$shortText', l_text ='$lText', e_time='NOW()' WHERE id='$id'")){

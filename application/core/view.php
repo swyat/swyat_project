@@ -7,7 +7,7 @@
  */
 class View 
 {
-    
+ private $templateView = 'TemplateView';   
 /**
  * Функція формування виду сторінок.
  * 
@@ -17,9 +17,12 @@ class View
  */        
     public function generate($contentView, $data = null)
     {
-       $templateView = 'Template_view';
-       include 'application/views/'.$templateView.'.php';
+       include 'application/views/'.$this -> templateView.'.php';
     }
+    public function setAnotherTemplateView($template){
+        $this -> templateView = $template;
+    }
+            
 }
 
 

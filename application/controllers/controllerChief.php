@@ -30,7 +30,7 @@ public function __construct(){
     public function action_index($id = null) {    
          $this -> model = new ModelChief();
          $data = $this -> model -> printMessages($id);
-         $this -> view -> generate('Chief_view', $data);
+         $this -> view -> generate('ChiefView', $data);
      }
      
 /**
@@ -53,7 +53,7 @@ public function __construct(){
     public function action_edit_message($id){
         $this -> model = new ModelChief();
         $data = $this -> model -> editMessage($id);
-        $this -> view -> generate('Edit_view', $data);
+        $this -> view -> generate('EditView', $data);
      }
     
 /**
@@ -98,10 +98,14 @@ public function __construct(){
      public function showCookie(){
          
          if (isset($_COOKIE['hash'])){
-         $hash = $_COOKIE['hash'];   
+         $hash = $_COOKIE['hash'];
+         echo 'before'.$hash;
          $this -> model = new ModelRegAvt();
          $login = $this -> model -> getLogin($hash);
-         session_start();
+         $newHash = $this -> model -> createHash();
+         $this -> model -> updateHash($login, $newHash);      
+        setcookie("hash", $newHash, time()+60*60*24*30, '/');
+         echo 'after'.$_COOKIE['hash'];
          $_SESSION['login'] = $login;
          }
      }

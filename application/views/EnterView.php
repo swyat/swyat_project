@@ -2,7 +2,7 @@
 <p>Avtorization</p>
 <form action ="/project/RegAvt/avtorization" method ="POST"> 
  <p> Enter your name:</p><input type ="text" name ="login"/><p><?php $data ?></p>
-  <p style ="color: red"><?php if ($data["login"]=="1")  echo "Name введено вірно".$_SESSION['login']; 
+  <p style ="color: red"><?php if ($data["login"]=="1" )   echo "Name введено вірно"; 
                                else echo $data["login"];?></p>
  <p> Enter your password:</p><input type ="password" name ="password"/>
  <p style ="color: red"><?php if ($data["login"]=="1") { echo "Password введено вірно"; 
