@@ -29,8 +29,8 @@ public function __construct(){
     
     public function action_index($id = null) {    
          $this -> model = new Model_Chief();
-         $data = $this -> model -> print_messages($id);
-         $this -> view -> generate('Chief_view', 'Template_view', $data);
+         $data = $this -> model -> printMessages($id);
+         $this -> view -> generate('Chief_view', $data);
      }
      
 /**
@@ -53,7 +53,7 @@ public function __construct(){
     public function action_edit_message($id){
         $this -> model = new Model_Chief();
         $data = $this -> model -> editMessage($id);
-        $this -> view -> generate('Edit_view', 'Template_view', $data);
+        $this -> view -> generate('Edit_view', $data);
      }
     
 /**
@@ -66,8 +66,8 @@ public function __construct(){
           $name = $_POST['name'];
           $email = $_POST['email'];
           $topic = $_POST['topic'];
-          $l_text = $_POST['l_text'];
-        $this -> model -> createMessage($name, $email, $topic, $l_text);
+          $lText = $_POST['l_text'];
+        $this -> model -> createMessage($name, $email, $topic, $lText);
      }
 /**
  * Функція оновлення інформації редагованого повідомлення.
@@ -79,10 +79,10 @@ public function __construct(){
           $name = $_POST['Uname'];
           $email = $_POST['Uemail'];
           $topic = $_POST['Utopic'];
-          $l_text = $_POST['Ul_text'];
+          $lText = $_POST['Ul_text'];
          
        $this -> model = new Model_Chief();
-        $this -> model -> updateMessage($id, $name, $email, $topic, $l_text);  
+        $this -> model -> updateMessage($id, $name, $email, $topic, $lText);  
      }
      
 /**
