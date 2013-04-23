@@ -10,8 +10,9 @@
      *
      * @author swyat <swyatyxa@i.ua>
      */
-class Model_reg_avt extends Model {
+class ModelRegAvt extends Model {
     
+   public $mysqlTable = "korustyvach_info";
     /**
      * Функція @link Validator($login, $password, $mysql_table, $password2 = NULL)
      *  - Перевіряє на відповідність аргументів regex-шаблону, 
@@ -122,12 +123,10 @@ class Model_reg_avt extends Model {
     public function twinSeach($name, $data, $mysql_table){
        $result=mysql_query("SELECT * FROM $mysql_table WHERE $name like '$data' ") or die(" error seach row ");
        $rows=mysql_num_rows($result);
-       if ($rows>1){
+       if ($rows>0){
            return TRUE;
        }
-       else{
-             new controllerError('Error find 2 hashes');
-       }
+       
     }
     /**
      * Функція @link generateCookie($login, $password, $mysql_table, $hash)
@@ -143,7 +142,8 @@ class Model_reg_avt extends Model {
                 $tableHash = $this ->seeHash($login, $password, $mysql_table);
                 setcookie("hash", $tableHash, time()+60*60*24*30, '/');
                 return TRUE;
-            }         
+            } 
+            return FALSE;
     } 
     
 /**
@@ -155,10 +155,9 @@ class Model_reg_avt extends Model {
  * @param string $mysql_table - Таблиця, для оновлення хеш-коду користувача
  * @return TRUE  - Повертає true при успішному виконанні функції
  */      
-    public function updateHash($login, $password, $hash, $mysql_table){
+    public function updateHash($login, $hash){
 
-        if (mysql_query("UPDATE $mysql_table SET code='$hash' WHERE login='$login' AND password='$password'")){
-            return TRUE;
+        if (mysql_query("UPDATE $this->mysqlTable SET code='$hash' WHERE login='$login'")){
         }
         else{
              new controllerError('Error updating colum "code" in korustyvach_info');
@@ -199,7 +198,7 @@ class Model_reg_avt extends Model {
     
     public function getLogin($hash){
    
-       $result = mysql_query("SELECT login FROM korustyvach_info WHERE  code='$hash' ");    
+       $result = mysql_query("SELECT login FROM $this->mysqlTable WHERE  code='$hash' ");    
        $seach_row = mysql_fetch_assoc($result);
        return $seach_row['login'];
     }

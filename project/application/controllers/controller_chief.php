@@ -10,7 +10,12 @@
 
 class Controller_chief extends Controller 
 {
-
+ 
+   private $mysql_database = "fff";
+   private $mysql_table = "messages_info";
+   private $mysql_host = "localhost";
+   private $mysql_username = "swyat";          
+   private $mysql_password = "15011992";  
 /**
  *  Конструктор класу {@link Controller_chief}
  * 
@@ -28,9 +33,9 @@ public function __construct(){
  */
     
     public function action_index($id = null) {    
-         $this -> model = new Model_Chief();
-         $data = $this -> model -> printMessages($id);
-         $this -> view -> generate('Chief_view', $data);
+         $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
+         $data = $this -> model -> print_messages($id);
+         $this -> view -> generate('Chief_view', 'Template_view', $data);
      }
      
 /**
@@ -40,7 +45,7 @@ public function __construct(){
  */
      
     public function action_delete_message($id){
-         $this -> model = new Model_Chief();
+         $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
          $this -> model -> deleteMessage($id); 
      }
      
@@ -51,9 +56,9 @@ public function __construct(){
 */ 
      
     public function action_edit_message($id){
-        $this -> model = new Model_Chief();
+        $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
         $data = $this -> model -> editMessage($id);
-        $this -> view -> generate('Edit_view', $data);
+        $this -> view -> generate('Edit_view', 'Template_view', $data);
      }
     
 /**
@@ -62,12 +67,12 @@ public function __construct(){
      
     public function action_create_message(){
        
-       $this -> model = new Model_Chief();
+       $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
           $name = $_POST['name'];
           $email = $_POST['email'];
           $topic = $_POST['topic'];
-          $lText = $_POST['l_text'];
-        $this -> model -> createMessage($name, $email, $topic, $lText);
+          $l_text = $_POST['l_text'];
+        $this -> model -> createMessage($name, $email, $topic, $l_text);
      }
 /**
  * Функція оновлення інформації редагованого повідомлення.
@@ -79,10 +84,10 @@ public function __construct(){
           $name = $_POST['Uname'];
           $email = $_POST['Uemail'];
           $topic = $_POST['Utopic'];
-          $lText = $_POST['Ul_text'];
+          $l_text = $_POST['Ul_text'];
          
-       $this -> model = new Model_Chief();
-        $this -> model -> updateMessage($id, $name, $email, $topic, $lText);  
+       $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
+        $this -> model -> updateMessage($id, $name, $email, $topic, $l_text);  
      }
      
 /**
@@ -90,20 +95,9 @@ public function __construct(){
  */
      
     public function action_change_message(){
-        $this -> model = new Model_Chief();
+        $this -> model = new Model_Chief($this ->mysql_host, $this ->mysql_username, $this ->mysql_password, $this ->mysql_database);
          $id = $_POST['ident'];
         $this -> model -> changeMessage($id);
-     }
-     
-     public function showCookie(){
-         
-         if (isset($_COOKIE['hash'])){
-         $hash = $_COOKIE['hash'];   
-         $this -> model = new Model_reg_avt();
-         $login = $this -> model -> getLogin($hash);
-         session_start();
-         $_SESSION['login'] = $login;
-         }
      }
 }
 

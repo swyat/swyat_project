@@ -10,7 +10,7 @@
  *
  * @author swyat <swyatyxa@i.ua>
  */
- class Model_Chief extends Model {
+ class ModelChief extends Model {
     
      private $mysqlTable = "messages_info";
 
@@ -72,10 +72,10 @@
     public function createMessage($name, $email, $topic, $lText)
     {
       
-       $s_text = substr($lText, 0, 60).'...';      
+       $sText = substr($lText, 0, 60).'...';      
         
        if (!mysql_query("INSERT INTO $this->mysqlTable (name, email, topic, s_text, l_text, c_time)
-          VALUES('$name','$email','$topic','$s_text','$lText',NOW())"))
+          VALUES('$name','$email','$topic','$sText','$lText',NOW())"))
        {
            new controllerError("Can't create this message");
        }  
@@ -125,9 +125,9 @@
  * @param type $id Ідентифікаційний номер повідомлення, що оновлюємо
  */
          
-     public function updateMessage($id, $name, $email, $topic, $l_text){
+     public function updateMessage($id, $name, $email, $topic, $lText){
    
-         $shortText = substr($l_text, 0, 60).'...';
+         $shortText = substr($lText, 0, 60).'...';
          
        if(is_numeric($id)){ 
             if (mysql_query("UPDATE $this->mysqlTable SET name='$name', email='$email', topic='$topic', s_text='$shortText', l_text ='$lText', e_time='NOW()' WHERE id='$id'")){
@@ -147,7 +147,6 @@
      
      public function changeMessage($id){
          
-          
           if (isset($id)){
            $message = $this ->getData($id);  
            $longText = $message['l_text'];

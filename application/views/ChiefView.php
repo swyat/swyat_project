@@ -2,6 +2,10 @@
 /**
  * Підключення вюшки {@link form_view.php} з формою створення повідомлення
  */
+<<<<<<< HEAD:application/views/Chief_view.php
+=======
+    
+>>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f:application/views/ChiefView.php
     include 'application/views/FormView.php';
 
     $size = count($data);
@@ -24,15 +28,15 @@
 	      <p class = 'Mesname'>Topic :  <?php echo $topic ?><p>
               <p class = 'Mesmessage' >Message: </p><textarea id ="<?php echo $id; ?>" class = 'Textarea' readonly = 'readonly' rows='4' cols='40'><?php echo $text_s; ?></textarea>
 	      <div class = 'Div_buttons'>
-    <?php                
-     if(isset($_SESSION['permissions'])){
-         if ($_SESSION['permissions'] === 'admin'){ 
+    <?php  
+    if(isset($_SESSION['permissions'])){
+       if ($_SESSION['permissions'] === 'admin'){ 
+            
     ?>         
-                   
                   <input type = 'button' class = 'Buttons' name = '<?php echo $id; ?>'  value = 'Delete' onclick = 'deleteMessage(name)'/>
                   <input type = 'button' class = 'Buttons' name = '<?php echo $id; ?>'  value = 'Edit' onclick = 'editMessage(name)'/>
    <?php   
-         }
+        }
     }?>
 
       <input type = 'button' class = 'Buttons' name = '<?php echo $id; ?>'  value = 'All' onclick ='post(name)' />

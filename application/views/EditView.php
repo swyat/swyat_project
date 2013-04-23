@@ -1,4 +1,4 @@
-	  <form method ='POST' action = '/project/chief/update_message/update/<?php echo $data['id'] ?>'>
+	<form method ='POST' action = '/project/Chief/update_message/update/<?php echo $data['id'] ?>'>
 	  <p>Name: </p>
           <textarea name = 'Uname' class = 'Fields' cols = '10' rows = '2' ><?php echo $data['name'] ?></textarea><br>	  
           <p>Email: </p>
