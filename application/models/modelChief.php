@@ -15,18 +15,19 @@
      private $mysqlTable = "messages_info";
 
 /**
- * Функція відображення всіх повідомлень
+ * Функція відображення повідомлень по окремим сторінкам
  * 
- * @param type $id Можливість відображення одного повідомлення 
+ * @param int $numPage - Номер поточної сторінки.
+ * @param int $size  - Кількість елементів на одній сторінці
+ * 
+ * @return array $messages
  */
     
-    public function printMessages($id)
+    public function printMessages($numPage, $size)
     {
-        $messages = $this ->getData($id);
-            if (is_array($messages))
-            {
-            return $messages;   
-            }   
+      
+      $messages = $this -> getPartOfMes($numPage, $size);   
+          return $messages;     
     }
     
 /**
@@ -152,6 +153,42 @@
            $longText = $message['l_text'];
            echo  $longText;
          }
+     }
+     
+    /**
+    * Функція вибірки з бази даних групи повідомлень, 
+    * що будуть відображатися на одній сторінці
+    * 
+    * @param int $numPage - Номер поточної сторінки.
+    * @param int $size  - Кількість елементів на одній сторінці
+    * 
+    * @return array $messages
+    */
+     
+     public function getPartOfMes($numPage, $size){
+         $messages = array();
+         --$numPage; 
+         $limit = $numPage * $size;
+         
+         $result = mysql_query ("SELECT * FROM $this->mysqlTable ORDER BY id DESC LIMIT $limit,$size");
+         $i=0;
+            while ($row = mysql_fetch_assoc($result)) { 
+                $i++;
+                $messages[$i] =  $row;   
+            }
+         return $messages;
+     } 
+     
+    /**
+    * Функція вибірки значення загальної кількості повідомлень в базі даних
+    * 
+    * @return int $count - Загальна кількість записів в таблицы @link messages_info
+    */
+     
+     public function getNumOfMessages(){
+         $select = mysql_query ("SELECT * FROM $this->mysqlTable");
+	 $count =mysql_num_rows($select);
+             return $count;
      }
      
 }
