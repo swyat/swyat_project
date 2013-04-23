@@ -40,6 +40,7 @@ class Paginator {
      */
    
    public function createMasUrl(){
+       
       $masURL = array();
       $pattern = "/project/Chief/index/page/";
       $numOfPages =ceil($this -> sizeMessages / $this -> numberMessages);
@@ -51,14 +52,21 @@ class Paginator {
                 if ($numAfter > $numOfPages){
                     $numAfter = $numOfPages;
                 }
-                    if ($numOfPages > 1){
-                    $masURL['<<'] = $pattern.'1';  
+                    if ($numOfPages >=1){
+                        $masURL['<<'] = $pattern.'1';
+                     
                         if ($this -> numberPage == 1){
                             $masURL['<'] = $pattern.($this -> numberPage);
                         }
                         else{
                             $masURL['<'] = $pattern.(($this -> numberPage)-1);
                         }
+                    }
+                    else {
+                        
+                        $masURL['<<'] = $pattern.'5000';
+                        $masURL['<'] = $pattern.'5000';
+                        
                     }
                         if ($numBefore > 1){
                             $masURL['...1'] = "...";
@@ -74,8 +82,14 @@ class Paginator {
                                         $masURL['>>'] = $pattern.$numOfPages;
                                     }
                                     else {
-                                        $masURL['>'] = $pattern.$numOfPages;
-                                        $masURL['>>'] = $pattern.$numOfPages;
+                                        if ($numOfPages == 0){
+                                            $masURL['>'] = $pattern.'5000';
+                                            $masURL['>>'] = $pattern.'5000';
+                                        }
+                                        else{
+                                            $masURL['>'] = $pattern.$numOfPages;
+                                            $masURL['>>'] = $pattern.$numOfPages;
+                                        }
                                     }
               return $masURL;
    } 

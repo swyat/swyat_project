@@ -2,13 +2,9 @@
 /**
  * Підключення вюшки {@link form_view.php} з формою створення повідомлення
  */
-<<<<<<< HEAD:application/views/Chief_view.php
-=======
-    
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f:application/views/ChiefView.php
+
     include 'application/views/FormView.php';
     include 'application/views/PaginatorView.php';?>
-    <hr/>
  <?php
     $size = count($data);
     $counter = 1;
@@ -36,8 +32,6 @@
               <input type = 'button' class = 'Buttons' name = '<?php echo $id; ?>'  value = 'All' onclick ='post(name)' />
               </div>
               </div>
-      <hr/>
     
 <?php } 
       include 'application/views/PaginatorView.php';?>
-      <hr/>

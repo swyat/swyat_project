@@ -22,11 +22,7 @@ class Route {
  *  Поля {@link $controller_name $action_name},
  *  що є контроллером та методом моделі позамовчуванню   
  */
-<<<<<<< HEAD
-        $controllerName = 'chief';
-=======
         $controllerName = 'Chief';
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f
         $actionName = 'index' ;
         $errorController = 'controllerError.php';
         $CheckPermissions = 'CheckPermissions.php';
@@ -54,14 +50,9 @@ class Route {
                             $arr[$routes[$i]] = $routes[++$i];
                         }
                     }
-            
-<<<<<<< HEAD
-                $modelName = 'Model_'.$controllerName;
-		$controllerName = 'Controller_'.$controllerName;	
-=======
+            	
                 $modelName = 'Model'.$controllerName;
 		$controllerName = 'controller'.$controllerName;	
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f
                 $actionName = 'action_'.$actionName;
                 
           $modelFile = strtolower($modelName).'.php';
@@ -80,21 +71,12 @@ class Route {
                 new controllerError("Connect error. Check name of model file"); 
             }
             include "application/controllers/".$controllerFile;
-<<<<<<< HEAD
-            include "application/controllers/".$errorController;
-            $controller = new $controllerName;        
-            $action = $actionName;
-         
-        if ($controllerName == 'Controller_chief'){
-            $modelFile2 = "model_reg_avt.php";
-=======
             
             $controller = new $controllerName;        
             $action = $actionName;
             
         if ($controllerName == 'controllerChief'){
             $modelFile2 = "modelRegAvt.php";
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f
             include "application/models/".$modelFile2;
             $chifOb = new $controllerName;
             $chifOb -> showCookie();

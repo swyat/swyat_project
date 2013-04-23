@@ -27,7 +27,6 @@ public function __construct(){
  * @param int $numPage  - Номер поточної сторінки для виводу повідомлень
  */
     
-<<<<<<< HEAD
     public function action_index($numPage = null) {    
          $this -> model = new ModelChief(); 
          $count = $this -> model -> getNumOfMessages();
@@ -51,20 +50,7 @@ public function __construct(){
                     $data = $this -> model -> printMessages($numPage, $numbeMessages);
                     $this -> view -> generate('ChiefView', $data, $masUrl);      
     }
-=======
-    public function action_index($id = null) {    
-<<<<<<< HEAD:application/controllers/controller_chief.php
-         $this -> model = new Model_Chief();
-         $data = $this -> model -> printMessages($id);
-         $this -> view -> generate('Chief_view', $data);
-=======
-         $this -> model = new ModelChief();
-         $data = $this -> model -> printMessages($id);
-         $this -> view -> generate('ChiefView', $data);
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f:application/controllers/controllerChief.php
-     }
->>>>>>> 202dffff032ac7d59d2394b1a537ab9b70d7462b
-     
+      
 /**
  * Функція видалення повідомлення.
  * 
@@ -88,11 +74,7 @@ public function __construct(){
     public function action_edit_message($id){
         $this -> model = new ModelChief();
         $data = $this -> model -> editMessage($id);
-<<<<<<< HEAD:application/controllers/controller_chief.php
-        $this -> view -> generate('Edit_view', $data);
-=======
         $this -> view -> generate('EditView', $data);
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f:application/controllers/controllerChief.php
      }
     
 /**
@@ -120,11 +102,7 @@ public function __construct(){
           $topic = $_POST['Utopic'];
           $lText = $_POST['Ul_text'];
          
-<<<<<<< HEAD:application/controllers/controller_chief.php
-       $this -> model = new Model_Chief();
-=======
        $this -> model = new ModelChief();
->>>>>>> 6cd1427f8bd93497df3a0bccc06d79425f39fe1f:application/controllers/controllerChief.php
         $this -> model -> updateMessage($id, $name, $email, $topic, $lText);  
      }
      
@@ -158,5 +136,3 @@ public function __construct(){
          }
      }
 }
-
-
