@@ -22,16 +22,34 @@ public function __construct(){
     }
      
 /**
- * Функція відображення всіх повідомлень
+ * Функція відображення повідомлень
  * 
- * @param type $id Можливість відображення одного повідомлення 
+ * @param int $numPage  - Номер поточної сторінки для виводу повідомлень
  */
     
-    public function action_index($id = null) {    
-         $this -> model = new ModelChief();
-         $data = $this -> model -> printMessages($id);
-         $this -> view -> generate('ChiefView', $data);
-     }
+    public function action_index($numPage = null) {    
+         $this -> model = new ModelChief(); 
+         $count = $this -> model -> getNumOfMessages();
+         $numberPages = 2;
+         $numbeMessages = 2;   
+         if(!is_null($numPage)){
+            if (!preg_match("/^[0-9]+$/", $numPage)){  
+                new controllerError("Ne vvodit biliberdy!!!");
+                exit();
+            } 
+         }
+         if ($numPage>ceil($count/$numbeMessages)){
+             new controllerError("This page not found!!!");
+         }
+            if (is_null($numPage)){
+                $numPage = 1;
+            }
+                 include 'application/Paginator.php';
+                    $obPaginator = new Paginator($count, $numbeMessages, $numberPages, $numPage);
+                    $masUrl = $obPaginator -> createMasUrl();
+                    $data = $this -> model -> printMessages($numPage, $numbeMessages);
+                    $this -> view -> generate('ChiefView', $data, $masUrl);      
+    }
      
 /**
  * Функція видалення повідомлення.
@@ -40,6 +58,9 @@ public function __construct(){
  */
      
     public function action_delete_message($id){
+         
+      new CheckPermissions("admin");
+      
          $this -> model = new ModelChief();
          $this -> model -> deleteMessage($id); 
      }
@@ -95,18 +116,23 @@ public function __construct(){
         $this -> model -> changeMessage($id);
      }
      
+/**
+ * Функція @link showCookie() перевіряє на наявність кука @link $_COOKIE['hash'],
+ * що означає - користувач був уже зареєстрований, тому він автоматично авторизуєтся
+ * Його файл кукі змінюється, для безпеки кожний раз при попаданні на сайт.
+ */     
      public function showCookie(){
          
          if (isset($_COOKIE['hash'])){
-         $hash = $_COOKIE['hash'];
-         echo 'before'.$hash;
-         $this -> model = new ModelRegAvt();
-         $login = $this -> model -> getLogin($hash);
-         $newHash = $this -> model -> createHash();
-         $this -> model -> updateHash($login, $newHash);      
-        setcookie("hash", $newHash, time()+60*60*24*30, '/');
-         echo 'after'.$_COOKIE['hash'];
-         $_SESSION['login'] = $login;
+            $hash = $_COOKIE['hash'];
+           // echo 'before'.$hash;
+            $this -> model = new ModelRegAvt();
+            $login = $this -> model -> getLogin($hash);
+            $newHash = $this -> model -> createHash();
+            $this -> model -> updateHash($login, $newHash);      
+            setcookie("hash", $newHash, time()+60*60*24*30, '/');
+           // echo 'after'.$_COOKIE['hash'];
+            $_SESSION['login'] = $login;
          }
      }
 }

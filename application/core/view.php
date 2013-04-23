@@ -15,13 +15,24 @@ class View
  * @param type $template_view Головна вюшка
  * @param type $data Можливість передачі даних у вюшку
  */        
-    public function generate($contentView, $data = null)
+    public function generate($contentView, $data = NULL, $data2 = NULL)
     {
        include 'application/views/'.$this -> templateView.'.php';
     }
+    
+    /**
+    * Функція заміни леяота позамовчуванню.
+    * 
+    * @param type $template Леяот для заміни
+    */ 
+    
     public function setAnotherTemplateView($template){
         $this -> templateView = $template;
     }
+    
+   // public function pushData($contentView, $mas){
+   //    include 'application/views/'.$contentView.'.php';
+   // }
             
 }
 

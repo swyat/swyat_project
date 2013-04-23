@@ -25,7 +25,9 @@ class Route {
         $controllerName = 'Chief';
         $actionName = 'index' ;
         $errorController = 'controllerError.php';
+        $CheckPermissions = 'CheckPermissions.php';
         include "application/controllers/".$errorController;
+        include "application/".$CheckPermissions;
 /**
  *  Оголошення масиву елементів, що для передачі 
  * аргументів методів у відповідні методи моделі.
