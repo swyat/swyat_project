@@ -45,8 +45,8 @@
           new controllerError("Can't delete this message");
          }
      } 
-     //    $url = "http://localhost/project";
-     //    header("Location: $url");               
+         $url = "http://localhost/project";
+         header("Location: $url");               
     }
     
     /**
