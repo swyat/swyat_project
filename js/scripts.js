@@ -32,7 +32,6 @@ window.onload = function(e)
 }
 function sendDataForValidation()
 {
-  // alert(PrevActiveElement.value);
     $.ajax({
         type: "POST",
         url: "/project/application/Validators.php",                                //project/init.php",                                //"/project/application/views/chief.php",
@@ -40,31 +39,20 @@ function sendDataForValidation()
         success: function(msg){  
             var ob = eval(msg);
            
-           var schethcik = 0;
-           var printdata = "";
-           for (var i in ob) {
-             schethcik++
-           }
-           for (var j=0; j<(schethcik-1); j++){
-              printdata = printdata + ob[j]; 
-             // alert(printdata);
-           }
-            //alert(printdata);
+            var schethcik = 0;
+            var printdata = "";
+            for (var i in ob) {
+              schethcik++
+            }
+                for (var j=0; j<(schethcik-1); j++){
+                   printdata = printdata + ob[j]; 
+                }
             alert(ob.error); 
-           // alert(parameterid);
             PrevActiveElement.value = printdata               
         }
     });
 }
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
 /**
      * Функція @link editMessage(parameters) викликає функцію контроллера щодо 
      * редагування повідомлення

@@ -13,6 +13,3 @@ class ControllerError extends Controller {
         $this -> view -> generate('ErrorView', $errorForPrinting);
     }
 }
-
-
-?>

@@ -83,5 +83,3 @@ class ControllerRegAvt extends Controller  {
          header ("Location: http://localhost/project/ ");
     }    
 }
-
-?>

@@ -4,8 +4,8 @@
  */
 
     include 'application/views/FormView.php';
-    include 'application/views/PaginatorView.php';?>
- <?php
+    include 'application/views/PaginatorView.php';
+ 
     $size = count($data);
     $counter = 1;
     for($i=1; $i<$size+1; $i++){                  
@@ -34,4 +34,4 @@
               </div>
     
 <?php } 
-      include 'application/views/PaginatorView.php';?>
+      include 'application/views/PaginatorView.php';
