@@ -23,12 +23,7 @@ public function __construct(){
  * Функція відображення повідомлень
  * 
  * @param int $numPage  - Номер поточної сторінки для виводу повідомлень
-<<<<<<< HEAD
  */ 
-=======
- */
-    
->>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
     public function action_index($numPage = null) {    
          $this -> model = new ModelChief(); 
          $count = $this -> model -> getNumOfMessages();
@@ -48,7 +43,7 @@ public function __construct(){
             }
                  include 'application/Paginator.php';
                     $obPaginator = new Paginator($count, $numbeMessages, $numberPages, $numPage);
-<<<<<<< HEAD
+
                   //  $obPaginator -> setPaginatorControlIcons('first', 'previous', '++', 'next', 'last');
                     $masUrl = $obPaginator -> createMasUrl();
                     $data2 = $obPaginator -> getPaginator($masUrl);
@@ -56,11 +51,7 @@ public function __construct(){
                     $arrays['data'] = $data;
                     $arrays['data2'] = $data2;
                     $this -> view -> generate('ChiefView', $arrays);      
-=======
-                    $masUrl = $obPaginator -> createMasUrl();
-                    $data = $this -> model -> printMessages($numPage, $numbeMessages);
-                    $this -> view -> generate('ChiefView', $data, $masUrl);      
->>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
+
     }
       
 /**
@@ -69,13 +60,8 @@ public function __construct(){
  * @param type $id Ідентифікаційний номер повідомлення, що видаляється
  */
     public function action_delete_message($id){
-         
-<<<<<<< HEAD
-      new CheckPermissions($arr = array("guest", "moderator", "admin"));
-=======
-      new CheckPermissions("admin");
->>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
-      
+     
+        new CheckPermissions("admin");
          $this -> model = new ModelChief();
          $this -> model -> deleteMessage($id); 
      }
