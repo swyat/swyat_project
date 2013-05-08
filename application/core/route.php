@@ -28,7 +28,10 @@ class Route {
         $CheckPermissions = 'CheckPermissions.php';
         include "application/controllers/".$errorController;
         include "application/".$CheckPermissions;
+<<<<<<< HEAD
         
+=======
+>>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
 /**
  *  Оголошення масиву елементів, що для передачі 
  * аргументів методів у відповідні методи моделі.

@@ -11,14 +11,19 @@
  */
     class CheckPermissions  {
  
+<<<<<<< HEAD
         private $byDefoultPermission = "guest";
         private $masPermissions = array();
+=======
+        private $byDefoultPermissions = "guest";
+>>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
         
  /**
   * - Конструктор класу @link CheckPermissions. Приймає параметром - ролі доступу.
   * @param string $permissions - Роль доступу ('admin','guest').
   */       
         public function __construct($permissions) {
+<<<<<<< HEAD
             if (is_array($permissions)){
                 $this -> masPermissions = $permissions;
                 //echo "permissions is masiv";
@@ -37,11 +42,18 @@
                 
         }
         
+=======
+            $this -> byDefoultPermissions = $permissions;
+            session_start();
+            $this ->validPermissions($permissions);
+        }
+>>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
   /**
    *    Функція перевірки існування сесії @link $_SESSION["permissions"] 
    * та перевірки рівності її значення певній ролі доступу.
    */      
        private function validPermissions(){
+<<<<<<< HEAD
             if (isset($_SESSION["permissions"])){
                    if (!empty($this -> masPermissions)){
                     print_r($this -> masPermissions);
@@ -74,3 +86,15 @@
           
       }
 }
+=======
+           $pattern = $_SESSION["permissions"]; 
+           if (!isset($pattern) && ($pattern !== $this -> byDefoultPermissions)){
+               new ControllerError("You don't have access!!! Contacting to admin."); 
+               exit();
+           }
+       }
+  
+}
+
+?>
+>>>>>>> 6428d6e0b38d1e5f99710c52d0a8a741d5a0e5c2
