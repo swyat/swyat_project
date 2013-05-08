@@ -22,27 +22,28 @@ class ModelRegAvt extends Model {
      * @param string $password2 - Дублювання пароля, для точності його вводу
      * @return $error_mes  - Масив із повідомленнями про неправильно введені дані.
      */    
-    public function Validator($login, $password, $mysql_table, $password2 = NULL){
-     
+    public function validatorRegAvt($login, $password, $mysql_table, $password2 = NULL){
+        include '/application/Validators.php';
+        $validators = new Validators;
         $error_mes = array();
-        if (!preg_match("/^[a-zA-Z0-9]+$/", $login)){
+        if (!$validators -> validTextDec($login)){
             $error_mes['login'] = "Логін складається тільки з літер англійського алфавіту або цифр";
             $error_mes['password'] = "";
             return $error_mes;
         }
         
-            if(strlen($login)<3 || strlen($login)>30){
+            if (!$validators -> validMinMaxLength($login, 3, 30)){
                 $error_mes['login'] = "Логін повинен бути завдовжки 3..30 символів";
-               $error_mes['password'] = "";
+                $error_mes['password'] = "";
                 return $error_mes;
             }  
                    
-        if (!preg_match("/^[a-zA-Z0-9]+$/", $password)){
+        if (!$validators -> validTextDec($password)){
             $error_mes['password'] = "Пароль складається тільки з літер англійського алфавіту або цифр";
             $error_mes['login'] = "";
             return $error_mes;
         }
-            if(strlen($password)<3 || strlen($password)>30){
+            if(!$validators -> validMinMaxLength($password, 3, 30)){
                 $error_mes['password'] = "Пароль повинен бути завдовжки 3..30 символів";
                 $error_mes['login'] = "";
                 return $error_mes;
@@ -121,9 +122,9 @@ class ModelRegAvt extends Model {
      * @return TRUE - Повертає при успішному виконанні функції
      */         
     public function twinSeach($name, $data, $mysql_table){
-       $result=mysql_query("SELECT * FROM $mysql_table WHERE $name like '$data' ") or die(" error seach row ");
-       $rows=mysql_num_rows($result);
-       if ($rows>0){
+       $result = mysql_query("SELECT * FROM $mysql_table WHERE $name like '$data' ") or die(" error seach row ");
+       $rows = mysql_num_rows($result);
+       if ($rows>0){    
            return TRUE;
        }
        

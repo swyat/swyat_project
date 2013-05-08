@@ -28,6 +28,7 @@ class Route {
         $CheckPermissions = 'CheckPermissions.php';
         include "application/controllers/".$errorController;
         include "application/".$CheckPermissions;
+        
 /**
  *  Оголошення масиву елементів, що для передачі 
  * аргументів методів у відповідні методи моделі.
@@ -50,7 +51,7 @@ class Route {
                             $arr[$routes[$i]] = $routes[++$i];
                         }
                     }
-            
+            	
                 $modelName = 'Model'.$controllerName;
 		$controllerName = 'controller'.$controllerName;	
                 $actionName = 'action_'.$actionName;

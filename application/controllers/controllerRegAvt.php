@@ -40,7 +40,7 @@ class ControllerRegAvt extends Controller  {
       $password2 = $_POST['password2'];
     
         $this -> model = new ModelRegAvt();
-        $error_mes = $this -> model -> Validator($login, $password, $this -> mysqlTable, $password2);
+        $error_mes = $this -> model -> validatorRegAvt($login, $password, $this -> mysqlTable, $password2);
 
         if($error_mes['login']==1){
             
@@ -50,7 +50,7 @@ class ControllerRegAvt extends Controller  {
     }
  
 /**
- * Функція @link action_avtorization() - авторизує користувача, що був зареєстрований 
+ * Функція @link action_avtorization() - авторизує користувача, якщо той був зареєстрований 
  */
     public function action_avtorization(){
         
@@ -58,7 +58,7 @@ class ControllerRegAvt extends Controller  {
       $password = $_POST['password']; 
      
       $this -> model = new ModelRegAvt();
-      $errorMes = $this -> model -> Validator($login, $password, $this -> mysqlTable);
+      $errorMes = $this -> model -> validatorRegAvt($login, $password, $this -> mysqlTable);
       if ($errorMes['login'] === TRUE){
             
          $this -> model -> generateCookie($login, $password, $this -> mysqlTable);

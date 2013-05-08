@@ -7,7 +7,6 @@
  * @author swyat <swyatyxa@i.ua>
  * @version 1.0
  */
-
 class ControllerChief extends Controller 
 {
 
@@ -15,8 +14,7 @@ class ControllerChief extends Controller
  *  Конструктор класу {@link Controller_chief}
  * 
  * Створює об'єкт вюшки - {@link View}
- */
-    
+ */  
 public function __construct(){
 	$this -> view = new View();
     }
@@ -25,8 +23,7 @@ public function __construct(){
  * Функція відображення повідомлень
  * 
  * @param int $numPage  - Номер поточної сторінки для виводу повідомлень
- */
-    
+ */ 
     public function action_index($numPage = null) {    
          $this -> model = new ModelChief(); 
          $count = $this -> model -> getNumOfMessages();
@@ -46,20 +43,23 @@ public function __construct(){
             }
                  include 'application/Paginator.php';
                     $obPaginator = new Paginator($count, $numbeMessages, $numberPages, $numPage);
+                  //  $obPaginator -> setPaginatorControlIcons('first', 'previous', '++', 'next', 'last');
                     $masUrl = $obPaginator -> createMasUrl();
+                    $data2 = $obPaginator -> getPaginator($masUrl);
                     $data = $this -> model -> printMessages($numPage, $numbeMessages);
-                    $this -> view -> generate('ChiefView', $data, $masUrl);      
+                    $arrays['data'] = $data;
+                    $arrays['data2'] = $data2;
+                    $this -> view -> generate('ChiefView', $arrays);      
     }
-     
+      
 /**
  * Функція видалення повідомлення.
  * 
  * @param type $id Ідентифікаційний номер повідомлення, що видаляється
  */
-     
     public function action_delete_message($id){
          
-      new CheckPermissions("admin");
+      new CheckPermissions($arr = array("guest", "moderator", "admin"));
       
          $this -> model = new ModelChief();
          $this -> model -> deleteMessage($id); 
@@ -69,8 +69,7 @@ public function __construct(){
 * Функція вибірки та можливості редагування потрібного повідомлення
 * 
 * @param type $id Ідентифікаційний номер повідомлення, що маємо редагувати
-*/ 
-     
+*/   
     public function action_edit_message($id){
         $this -> model = new ModelChief();
         $data = $this -> model -> editMessage($id);
@@ -79,8 +78,7 @@ public function __construct(){
     
 /**
  *   Функція створення нового повідомлення
- */  
-     
+ */     
     public function action_create_message(){
        
        $this -> model = new ModelChief();
@@ -94,8 +92,7 @@ public function __construct(){
  * Функція оновлення інформації редагованого повідомлення.
  * 
  * @param type $id Ідентифікаційний номер повідомлення, що оновлюємо
- */     
-     
+ */       
     public function action_update_message($id){
           $name = $_POST['Uname'];
           $email = $_POST['Uemail'];
@@ -108,8 +105,7 @@ public function __construct(){
      
 /**
  *  Функція заміни скороченого повідомлення на ціле
- */
-     
+ */   
     public function action_change_message(){
         $this -> model = new ModelChief();
          $id = $_POST['ident'];
@@ -136,5 +132,3 @@ public function __construct(){
          }
      }
 }
-
-
