@@ -177,6 +177,7 @@ class ModelRegAvt extends Model {
         $seach_row = mysql_fetch_array($result); 
         return $seach_row['code'];
         }
+        
  /**
  * Функція @link getPermission($login, $password, $mysql_table)
  *  - Повертає назву прав доступу користувача
@@ -196,7 +197,6 @@ class ModelRegAvt extends Model {
     * @param string $hash - Є унікальним хешкодом користувача
     * @return $seach_row['login']  Повертає масив  при успішному виконанні функції
     */ 
-    
     public function getLogin($hash){
    
        $result = mysql_query("SELECT login FROM $this->mysqlTable WHERE  code='$hash' ");    

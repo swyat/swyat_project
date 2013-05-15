@@ -68,20 +68,25 @@
     
 /**
  *   Функція внесення полів нового повідомлення в базу даних
+ *   @param type $name назва поля таблиці, в яке записується дані
+ *   @param type $email назва поля таблиці, в яке записується дані
+ *   @param type $topic назва поля таблиці, в яке записується дані
+ *   @param type $lText назва поля таблиці, в яке записується дані
+ *   @param type $keyText назва поля таблиці, в яке записується дані
  */ 
     
-    public function createMessage($name, $email, $topic, $lText)
+    public function createMessage($name, $email, $topic, $lText, $keyWords)
     {
       
        $sText = substr($lText, 0, 60).'...';      
         
-       if (!mysql_query("INSERT INTO $this->mysqlTable (name, email, topic, s_text, l_text, c_time)
-          VALUES('$name','$email','$topic','$sText','$lText',NOW())"))
+       if (!mysql_query("INSERT INTO $this->mysqlTable (name, email, topic, s_text, l_text, c_time, keyWords)
+          VALUES('$name','$email','$topic','$sText','$lText',NOW(), '$keyWords')"))
        {
            new controllerError("Can't create this message");
        }  
             $url = "http://localhost/project";
-           header("Location: $url");      
+            header("Location: $url");      
        
      }
      
@@ -191,4 +196,24 @@
              return $count;
      }
      
+     /**
+    * Функція вибірки даних із таблиці бази даних
+    * 
+    * @param type $nameOfColumn - Назва стовпця таблиці.
+    * @param type $value - Інформація, для пошуку.
+    * @return $data_array Повертає масив із вибраними всіма повідомленнями,
+    * в яких знайдено подібні ,$value, слова. 
+    */
+           public function searchingData($nameOfColumn, $value){
+         
+            $result = mysql_query("SELECT * FROM messages_info WHERE $nameOfColumn like '%$value%' ") or die(" error seach row ");
+            //$count =mysql_num_rows($result);
+            $dataArray = array();
+            $i=0;    
+                while ($row = mysql_fetch_assoc($result)) { 
+                    $i++;
+                    $dataArray[$i] =  $row;   
+                }  
+                return $dataArray;  
+         }
 }

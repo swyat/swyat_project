@@ -13,7 +13,9 @@ class ControllerRegAvt extends Controller  {
     
     private $mysqlTable = "korustyvach_info";
   
-    
+/**
+ *  Конструктор ControllerRegAvt
+ */    
     public function __construct(){
         $this ->view = new View();
         session_start();

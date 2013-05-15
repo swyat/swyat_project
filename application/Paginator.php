@@ -10,6 +10,21 @@
  * @author swyat <swyatyxa@i.ua>
  */
 class Paginator {
+   
+   /**
+    *
+    * @var string $sizeMessages - Загальна кількість сторінок позамовчуванню
+    * @var string $numberMessages - Кількість сторінок на одній сторінці позамовчуванню
+    * @var string $numberURL - Кількість посилань, що відображаються до і після поточної сторінки
+    * @var string $currentPage - Поточна сторінка
+    * @var string $pattern - Шаблон 
+    * 
+    * @var string $iconFirst - Кнопка навігації пагінатора позамовчуванню 
+    * @var string $iconPrevious - Кнопка навігації пагінатора позамовчуванню  
+    * @var string $iconDot - Кнопка навігації пагінатора позамовчуванню 
+    * @var string $iconNext - Кнопка навігації пагінатора позамовчуванню 
+    * @var string $iconLast - Кнопка навігації пагінатора позамовчуванню 
+    */
    private $sizeMessages = null;
    private $numberMessages = null;
    private $numberURL = null;
@@ -42,10 +57,23 @@ class Paginator {
        $this -> currentPage = $currentPage;                //поточна сторінка
    }
    
+   /**
+    * @link setPattern($pattern) - Функція зміни шаблону шляху, що був позамовчуванню
+    * @param string $pattern - Шаблон шляху
+    */
+           
    public function setPattern($pattern){
        $this -> pattern = $pattern;
    }
-   
+   /**
+    * @link setPaginatorControlIcons($first, $previous, $iconDot, $next, $last) 
+    * - Метод зміни вигляду навігації пагінатора
+    * @param type $first -Кнопка навігації пагінатора  
+    * @param type $previous -Кнопка навігації пагінатора  
+    * @param type $iconDot -Кнопка навігації пагінатора  
+    * @param type $next -Кнопка навігації пагінатора  
+    * @param type $last -Кнопка навігації пагінатора  
+    */
    public function setPaginatorControlIcons($first, $previous, $iconDot, $next, $last){
     if (!is_int($first)&&(!is_int($previous))&&(!is_int($next))&&(!is_int($last))){
         $this -> iconFirst = $first;
@@ -65,7 +93,7 @@ class Paginator {
     /**
      * @link createMasUrl() - Метод, що відповідає за створення навігації між сторінками з повідомленнями
      * 
-     * @return string $masURL - Повертає масив із даними про відображення навігації, 
+     * @return array $masURL - Повертає масив із даними про відображення навігації, 
      * відображення посилань є ключі масиву, а внутрішні переходи є значеннями кожного ключа
      */
    public function createMasUrl(){
@@ -116,48 +144,17 @@ class Paginator {
                                         else{
                                             $masURL[$this -> iconNext] = $this -> pattern.$numOfPages;
                                             $masURL[$this -> iconLast] = $this -> pattern.$numOfPages;
-/*
-                        $masURL['<<'] = $pattern.'1';
-                     
-                        if ($this -> numberPage == 1){
-                            $masURL['<'] = $pattern.($this -> numberPage);
-                        }
-                        else{
-                            $masURL['<'] = $pattern.(($this -> numberPage)-1);
-                        }
-                    }
-                    else {
-                        
-                        $masURL['<<'] = $pattern.'5000';
-                        $masURL['<'] = $pattern.'5000';
-                        
-                    }
-                        if ($numBefore > 1){
-                            $masURL['...1'] = "...";
-                        }
-                            for($i = $numBefore; $i <= $numAfter; $i++){
-                                $masURL[$i] = $pattern.$i;
-                            }       
-                                if ($numAfter < $numOfPages){
-                                    $masURL['...2'] = "...";
-                                }
-                                    if (($this -> numberPage) < $numOfPages){
-                                        $masURL['>'] = $pattern.(($this -> numberPage) + 1);
-                                        $masURL['>>'] = $pattern.$numOfPages;
+                                       }
                                     }
-                                    else {
-                                        if ($numOfPages == 0){
-                                            $masURL['>'] = $pattern.'5000';
-                                            $masURL['>>'] = $pattern.'5000';
-                                        }
-                                        else{
-                                            $masURL['>'] = $pattern.$numOfPages;
-                                            $masURL['>>'] = $pattern.$numOfPages;
-                                        }
-                               */     }
-                                    }
+                                    
               return $masURL;
    } 
+   
+   /**
+     * @link getPaginator($masURL) - Метод, що відповідає за створення посилань на сторінки з повідомленнями
+     * @param array $masURL - Назви посилань для пагінатора
+     * @return string $masURL - Повертає масив із посиланнями на відображення навігації
+     */
    public function getPaginator($masURL){
        $masPaginator = array();
        $previousNavEl = '<a href = '.$masURL[$this -> iconPrevious].'>'.$this -> iconPrevious.'</a>';
@@ -171,7 +168,7 @@ class Paginator {
     $masPaginator[$this -> iconPrevious] = $previousNavEl;
     
     if (array_key_exists($this -> keyMasForDot1, $masURL)){
-        $masPaginator[$dot] = $dot;
+        $masPaginator[$this -> keyMasForDot1] = $dot;
     }
     $data = array_keys($masURL);
     foreach($data as $val){
@@ -180,8 +177,9 @@ class Paginator {
             $masPaginator[$pagesNavEl] = '<a href = '.$masURL[$pagesNavEl].'>'.$pagesNavEl.'</a>';
         }
     }
+    
     if (array_key_exists($this -> keyMasForDot2, $masURL)){
-        $masPaginator[$dot] = $dot;
+        $masPaginator[$this -> keyMasForDot2] = $dot;
     }
     $masPaginator[$this -> iconNext] = $nextNavEl;
     $masPaginator[$this -> iconLast] = $lastNavEl;

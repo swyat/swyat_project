@@ -7,6 +7,7 @@
  * @author swyat <swyatyxa@i.ua>
  * @version 1.0
  */
+include 'application/models/modelSearch.php';
 class ControllerChief extends Controller 
 {
 
@@ -43,7 +44,6 @@ public function __construct(){
             }
                  include 'application/Paginator.php';
                     $obPaginator = new Paginator($count, $numbeMessages, $numberPages, $numPage);
-
                   //  $obPaginator -> setPaginatorControlIcons('first', 'previous', '++', 'next', 'last');
                     $masUrl = $obPaginator -> createMasUrl();
                     $data2 = $obPaginator -> getPaginator($masUrl);
@@ -83,11 +83,15 @@ public function __construct(){
     public function action_create_message(){
        
        $this -> model = new ModelChief();
-          $name = $_POST['name'];
+          $name =  $_POST['name'];
           $email = $_POST['email'];
           $topic = $_POST['topic'];
           $lText = $_POST['l_text'];
-        $this -> model -> createMessage($name, $email, $topic, $lText);
+          $keyWords = $_POST['keyWords'];
+          $ObModSeach = new ModelSearch();
+        $keyUrl = $ObModSeach -> changePass($keyWords);
+        $keyWords =$ObModSeach -> createUrls($keyUrl);
+        $this -> model -> createMessage($name, $email, $topic, $lText, $keyWords);
      }
 /**
  * Функція оновлення інформації редагованого повідомлення.

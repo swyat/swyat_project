@@ -7,9 +7,13 @@
  */
 
 class ControllerError extends Controller {
-    public function __construct($Error) {
+/**
+ * Конструктор класу ControllerError
+ * @param type $Error - Помилка, для відображення користувачу
+ */
+    public function __construct($Error){
         $errorForPrinting = array ($Error);
         $this -> view = new View();
-        $this -> view -> generate('ErrorView', $errorForPrinting);
+        $this -> view -> generate('ErrorView', $errorForPrinting);      
     }
 }

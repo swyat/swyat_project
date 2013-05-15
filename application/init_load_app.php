@@ -12,8 +12,7 @@
      
 require_once 'core/controller.php';  
 require_once 'core/model.php';         // підключити allow_url_open
-require_once 'core/view.php';
-     
+require_once 'core/view.php';    
 /**  
  *   @see core/route Підключає файл з класом маршрутизатора
  */

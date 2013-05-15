@@ -1,18 +1,27 @@
-<?php
+﻿<?php
 
 /*
  * Файл із класом CheckPermissions
  */
 
 /**
- * Клас доступу до функціоналу guests-book
+ * Клас обмеження доступу до певного функціоналу guests-book
  *
  * @author swyat <swyatyxa@i.ua>
  */
     class CheckPermissions  {
- 
+    
+     /**
+      * @var string $byDefoultPermission - Роль доступу позамовчуванню 
+      * @var array $masPermissions - Масив ролей доступу
+      */
         private $byDefoultPermission = "guest";
         private $masPermissions = array();
+
+
+
+
+
 
 
         
@@ -62,10 +71,21 @@
             }
       }
       
+     /**
+      * @link ifNoAccess() - Функція відображення повідомлення, немаючи доступу
+      */ 
       private function ifNoAccess(){
           new ControllerError("You don't have access!!! Contact to webmaster."); 
           exit();
       }
+      
+     /**
+      * 
+      * @link arraySeach ($value, $array) - Функція пошуку значення в масиві
+      * @param string $value - текст для пошуку
+      * @param string $array - Масив в якому проводиться пошук
+      * @return boolean true - при знаходженні значення в масиві
+      */
       public function arraySeach ($value, $array){
           foreach ($array as $val){
               if ($val === $value){

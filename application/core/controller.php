@@ -13,7 +13,7 @@
 class Controller{ 
      public $view;
      public $model;
-
+          
 /**
  *  Конструктор головного контроллера - {@link Controller}
  */

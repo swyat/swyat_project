@@ -1,20 +1,22 @@
-var activeElement = null;
-var PrevActiveElement = null;
+//var activeElement = null;
+//var PrevActiveElement = null;
+var changedElement = null;
+var currentTime = null;
+var timeLimit = null;
 
-
-function onFocus() 
+function onChange() 
 {
     var e = window.event;  
-    activeElement = e.srcElement; 
-    
-}
-
-function onBlur() 
-{
-    PrevActiveElement = activeElement
-    parameterid = PrevActiveElement.id;
-    activeElement = null;
-    window.sendDataForValidation();
+    changedElement = e.srcElement;
+    currentTime = Date.now();
+    //alert ("currentTime"+currentTime+"\n"+"timeLimit"+timeLimit);
+    if (currentTime>timeLimit){
+        window.sendDataForValidation();
+        timeLimit = 5000+currentTime;
+    }
+    else{
+        alert ('zachecayte 5 sec');
+    }
 }
 
 window.onload = function(e)
@@ -23,8 +25,7 @@ window.onload = function(e)
     {
         for (var j=0; j<document.forms[i].elements.length; j++)
         {
-            document.forms[i].elements[j].onfocus = onFocus;
-            document.forms[i].elements[j].onblur = onBlur;
+              document.forms[i].elements[j].onchange = onChange;
         }
     }
      
@@ -34,25 +35,35 @@ function sendDataForValidation()
 {
     $.ajax({
         type: "POST",
-        url: "/project/application/Validators.php",                                //project/init.php",                                //"/project/application/views/chief.php",
-        data: 'data='+PrevActiveElement.value,
-        success: function(msg){  
+        url: "http://localhost/project/BadWords/SeachBadWords/",                                //project/init.php",                                //"/project/application/views/chief.php",
+        data: 'data='+changedElement.value,
+        success: function(msg){ 
             var ob = eval(msg);
-           
             var schethcik = 0;
             var printdata = "";
-            for (var i in ob) {
-              schethcik++
-            }
-                for (var j=0; j<(schethcik-1); j++){
-                   printdata = printdata + ob[j]; 
+           
+                    for (var i in ob) {
+                        if (is_int(i)){
+                            schethcik++;
+                        }
+                    }
+                        for (var j=0; j<schethcik; ++j){
+                           printdata = printdata + ob[j]+' '; 
+                        }  
+               
+                if ('error' in ob){  
+                  alert(ob.error);
                 }
-            alert(ob.error); 
-            PrevActiveElement.value = printdata               
+                changedElement.value = printdata;               
         }
     });
 }
-
+function is_int(value) {
+    if (parseInt(value) == value) {
+        return true;
+    }
+    return false;
+}
 /**
      * Функція @link editMessage(parameters) викликає функцію контроллера щодо 
      * редагування повідомлення
@@ -96,7 +107,8 @@ function post(parameters)
 function setTextArea(butName){
         
     setTeg($("#idTextArea")[0], butName);    
-}           
+}     
+
 function setTeg (o, butName) {
 
     if (document.selection) {
@@ -115,5 +127,6 @@ function setTeg (o, butName) {
         o.setSelectionRange(start + len + b, start + len + b);
     }
 }
+ 
 
       
